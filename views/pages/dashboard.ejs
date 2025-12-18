@@ -1,0 +1,51 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container admin-container">
+  <div class="admin-content" style="max-width: 800px; margin: 20px auto;">
+    
+    <div class="admin-header">
+      <h2>My Dashboard</h2>
+      <form action="/logout" method="GET" style="margin: 0;">
+        <button type="submit" class="btn btn-danger">Logout</button>
+      </form>
+    </div>
+
+    <div class="dashboard-section">
+      <h3>My Profile</h3>
+      <div class="profile-info">
+        <p><strong>Username:</strong> <%= currentUser.username %></p>
+        <p><strong>Email:</strong> <%= currentUser.email %></p>
+        <p><strong>Role:</strong> <%= currentUser.role %></p>
+      </div>
+      <div class="profile-actions">
+        
+        <a href="/profile/edit" class="btn btn-secondary">Edit Profile</a>
+      </div>
+    </div>
+
+    <div class="dashboard-section">
+      <h3>My Upcoming Events</h3>
+      <div class="event-grid-minimal">
+        <% if (rsvps && rsvps.length > 0) { %>
+          <% rsvps.forEach(event => { %>
+            <div class="event-card-minimal">
+              <img src="<%= event.image_url || 'https://placehold.co/600x400/6c757d/white?text=Event' %>" alt="<%= event.title %>">
+              <div class="event-card-minimal-content">
+                <strong><%= event.title %></strong>
+                <span><%= new Date(event.date).toLocaleDateString() %></span>
+                <a href="/event/<%= event.id %>" class="btn btn-sm btn-primary">View</a>
+              </div>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <p>You haven't RSVP'd to any upcoming events yet.</p>
+          <a href="/" class="btn btn-primary">Find Events</a>
+        <% } %>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,58 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/admin-nav') %>
+
+<div class="container page-content">
+  <h2 class="page-title">Admin Dashboard</h2>
+  
+  <!-- Analytics Cards -->
+  <div class="analytics-container">
+    <div class="analytics-card">
+      <h3>Total Users</h3>
+      <p class="analytics-number"><%= userCount %></p>
+    </div>
+    <div class="analytics-card">
+      <h3>Total Events</h3>
+      <p class="analytics-number"><%= eventCount %></p>
+    </div>
+    <div class="analytics-card">
+      <h3>Total RSVPs</h3>
+      <p class="analytics-number"><%= rsvpCount %></p>
+    </div>
+  </div>
+
+  <!-- Recent Events List -->
+  <div class="admin-table-container">
+    <h3>Recently Created Events</h3>
+    <% if (recentEvents && recentEvents.length > 0) { %>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Event Name</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% recentEvents.forEach(event => { %>
+            <tr>
+              <td><%= event.name %></td>
+              <td><%= new Date(event.date).toLocaleDateString() %></td>
+              <td><%= event.location %></td>
+              <td>
+                <a href="/admin/events/<%= event.event_id %>/edit" class="btn btn-sm btn-secondary">Edit</a>
+                <a href="/event/<%= event.event_id %>" class="btn btn-sm btn-primary">View</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>No events found.</p>
+    <% } %>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
+

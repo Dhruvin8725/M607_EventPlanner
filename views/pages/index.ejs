@@ -1,0 +1,57 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container admin-container">
+  <div class="admin-content" style="padding: 0; background: none; box-shadow: none;">
+    <div class="admin-header" style="text-align: center; display: block; margin-bottom: 20px;">
+      <h2>Upcoming Events</h2>
+      <p>Find and RSVP to events near you.</p>
+    </div>
+
+    <form action="/" method="GET" class="search-form" style="max-width: 600px; margin: 20px auto; display: flex; gap: 10px;">
+      <input 
+        type="text" 
+        name="search" 
+        class="form-control" 
+        placeholder="Search by title or location..."
+        style="padding: 12px; font-size: 16px; border: 1px solid #ced4da; border-radius: 5px; width: 100%;"
+      >
+      <button type="submit" class="btn btn-primary" style="padding: 12px 20px;">Search</button>
+    </form>
+
+    <div class="event-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 30px;">
+      
+      <% if (events && events.length > 0) { %>
+        <% events.forEach(event => { %>
+          <div class="event-card" style="background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column;">
+            
+            <img 
+              src="<%= event.image_url || 'https://placehold.co/600x400/007bff/white?text=Event' %>" 
+              alt="<%= event.title %>" 
+              style="width: 100%; height: 200px; object-fit: cover;"
+            >
+            
+            <div class="event-card-content" style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column;">
+              <h3 style="font-size: 22px; margin-bottom: 10px;"><%= event.title %></h3>
+              <span style="font-weight: 600; color: #007bff; margin-bottom: 10px;">
+                <%= new Date(event.date).toLocaleDateString() %>
+              </span>
+              <p style="color: #6c757d; margin-bottom: 15px; flex-grow: 1;">
+                <%= event.description.substring(0, 100) %>...
+              </p>
+              <a href="/event/<%= event.id %>" class="btn btn-primary" style="margin-top: auto;">View Details</a>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #fff; border-radius: 8px;">
+          <h3>No events found.</h3>
+          <p>Check back later or try a different search!</p>
+        </div>
+      <% } %>
+
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,84 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/admin-nav') %>
+
+<div class="container auth-container">
+  <div class="auth-card">
+    
+    <!--
+      This is a ternary operator in EJS.
+      If 'event' exists, show "Edit Event".
+      If not, show "Create New Event".
+    -->
+    <h1 class="auth-title">
+      <%= event ? 'Edit Event' : 'Create New Event' %>
+    </h1>
+
+    <!-- Include the new messages partial -->
+    <%- include('../partials/messages') %>
+
+    <!--
+      If 'event' exists, the form action POSTs to the /admin/edit/:id route.
+      If not, it POSTs to the /admin/new route.
+    -->
+    <form action="<%= event ? '/admin/edit/' + event.id : '/admin/new' %>" method="POST">
+      
+      <div class="form-group">
+        <label for="title">Event Title</label>
+        <input 
+          type="text" 
+          id="title" 
+          name="title" 
+          class="form-control" 
+          value="<%= event ? event.title : '' %>"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input 
+          type="date" 
+          id="date" 
+          name="date" 
+          class="form-control" 
+          value="<%= event ? event.form_date : '' %>"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="location_name">Location (e.g., "Eiffel Tower, Paris, France")</label>
+        <input 
+          type="text" 
+          id="location_name" 
+          name="location_name" 
+          class="form-control" 
+          value="<%= event ? event.location_name : '' %>"
+          required
+        >
+        <small>If you edit an event, only change this field if you want to update the map coordinates.</small>
+      </div>
+      
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea 
+          id="description" 
+          name="description" 
+          class="form-control" 
+          rows="5"
+          required
+        ><%= event ? event.description : '' %></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">
+        <%= event ? 'Update Event' : 'Save Event' %>
+      </button>
+    </form>
+    
+    <a href="/admin/manage" class="btn btn-secondary btn-block" style="margin-top: 10px;">Cancel</a>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
+

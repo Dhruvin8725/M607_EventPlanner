@@ -1,0 +1,110 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container page-content">
+  <% if (typeof event !== 'undefined') { %>
+    <!-- Page Title -->
+    <h2 class="page-title"><%= event.name %></h2>
+
+    <!-- Event Main Content -->
+    <div class="event-details-container">
+      
+      <!-- Left Column (Image & Map) -->
+      <div class="event-details-left">
+        <img 
+          src="<%= event.image_url || 'https://placehold.co/600x400/007bff/white?text=Event' %>" 
+          alt="<%= event.name %>"
+          class="event-details-image"
+          onerror="this.src='https://placehold.co/600x400/007bff/white?text=Event'"
+        >
+        
+        <!-- Google Map Container -->
+        <h3 class="details-subtitle">Event Location</h3>
+        <!-- 
+          The map will be loaded into this div by our map.js script.
+          We pass the lat/lng using data attributes.
+        -->
+        <div 
+          id="map" 
+          style="height: 400px; width: 100%; border-radius: 8px;"
+          data-lat="<%= event.latitude || '40.7128' %>"
+          data-lng="<%= event.longitude || '-74.0060' %>"
+          data-title="<%= event.name %>"
+        ></div>
+      </div>
+
+      <!-- Right Column (Info & RSVP) -->
+      <div class="event-details-right">
+        
+        <!-- RSVP Button -->
+        <div class="card-message rsvp-card">
+          <h4>RSVP to this Event?</h4>
+          
+          <!-- This section is conditional based on login status and RSVP status -->
+          <% if (currentUser) { %>
+            
+            <% if (hasRsvpd) { %>
+              <!-- User is logged in AND has RSVP'd -->
+              <p>You have RSVP'd to this event!</p>
+              <!-- This form uses METHOD-OVERRIDE to send a DELETE request -->
+              <form action="/event/<%= event.event_id %>/rsvp?_method=DELETE" method="POST">
+                <button type="submit" class="btn btn-danger">Cancel RSVP</button>
+              </form>
+            <% } else { %>
+              <!-- User is logged in but has NOT RSVP'd -->
+              <p>Click below to confirm your spot.</p>
+              <form action="/event/<%= event.event_id %>/rsvp" method="POST">
+                <button type="submit" class="btn btn-primary">RSVP Now</button>
+              </form>
+            <% } %>
+
+          <% } else { %>
+            <!-- User is not logged in -->
+            <p>Please log in to RSVP to this event.</p>
+            <a href="/login" class="btn btn-secondary">Login to RSVP</a>
+          <% } %>
+        </div>
+
+        <!-- Event Info -->
+        <div class="event-info-box">
+          <h3 class="details-subtitle">Event Details</h3>
+          <div class="info-item">
+            <strong>📅 Date:</strong>
+            <%= new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+          </div>
+          <div class="info-item">
+            <strong>🕕 Time:</strong>
+            <%= new Date(event.date).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) %>
+          </div>
+          <div class="info-item">
+            <strong>📍 Location:</strong>
+            <%= event.location %>
+          </div>
+        </div>
+
+        <!-- Event Description -->
+        <div class="event-description-box">
+          <h3 class="details-subtitle">About this Event</h3>
+          <p><%= event.description %></p>
+        </div>
+
+      </div>
+    </div>
+  <% } else { %>
+    <div class="card-message">
+      <h2>Event Not Found</h2>
+      <p>Sorry, we couldn't find the event you're looking for.</p>
+      <a href="/" class="btn btn-primary">Back to Events</a>
+    </div>
+  <% } %>
+</div>
+
+<!-- 
+  This script MUST come after the map div
+  We load the Google Maps API and then our local map.js script.
+-->
+<script src="httpshttps://maps.googleapis.com/maps/api/js?key=<%= googleMapsApiKey %>&callback=initMap&v=weekly" defer></script>
+<script src="/js/map.js"></script>
+
+<%- include('../partials/footer') %>
+

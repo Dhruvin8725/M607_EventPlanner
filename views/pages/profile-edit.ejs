@@ -1,0 +1,66 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container page-content">
+  <div class="auth-card" style="max-width: 600px;">
+    
+    <!-- Edit Profile Form -->
+    <form action="/profile/edit" method="POST">
+      <h2 class="card-title" style="text-align: left; font-size: 24px;">Edit Profile</h2>
+      
+      <!-- Simple success/error message -->
+      <% if (typeof profileMessage !== 'undefined') { %>
+        <p style="color: green;"><%= profileMessage %></p>
+      <% } %>
+      <% if (typeof profileError !== 'undefined') { %>
+        <p style="color: red;"><%= profileError %></p>
+      <% } %>
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" value="<%= currentUser.username %>" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="<%= currentUser.email %>" required>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+      </div>
+    </form>
+
+    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #e9ecef;">
+
+    <!-- Reset Password Form -->
+    <form action="/profile/password" method="POST">
+      <h2 class="card-title" style="text-align: left; font-size: 24px;">Reset Password</h2>
+      
+      <!-- Simple success/error message -->
+      <% if (typeof passwordMessage !== 'undefined') { %>
+        <p style="color: green;"><%= passwordMessage %></p>
+      <% } %>
+      <% if (typeof passwordError !== 'undefined') { %>
+        <p style="color: red;"><%= passwordError %></p>
+      <% } %>
+
+      <div class="form-group">
+        <label for="current_password">Current Password</label>
+        <input type="password" id="current_password" name="current_password" required>
+      </div>
+      <div class="form-group">
+        <label for="new_password">New Password</label>
+        <input type="password" id="new_password" name="new_password" required>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-secondary">Update Password</button>
+      </div>
+    </form>
+
+    <div class="text-center" style="margin-top: 20px;">
+      <a href="/dashboard">Back to Dashboard</a>
+    </div>
+
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

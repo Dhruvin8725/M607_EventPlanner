@@ -1,0 +1,52 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container admin-container">
+  <%- include('../partials/admin-nav') %>
+
+  <div class="admin-content">
+    <div class="admin-header">
+      <h2>Manage Events</h2>
+      <a href="/admin/new" class="btn btn-primary">Create New Event</a>
+    </div>
+
+    <div class="admin-table-container">
+      <h3>All Events</h3>
+      <% if (events && events.length > 0) { %>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Event Title</th>
+              <th>Date</th>
+              <th>Location</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% events.forEach(event => { %>
+              <tr>
+                <td><%= event.id %></td>
+                <td><%= event.title %></td>
+                <td><%= new Date(event.date).toLocaleDateString() %></td>
+                <td><%= event.location_name %></td>
+                <td>
+                  <div class="action-buttons">
+                    <a href="/admin/edit/<%= event.id %>" class="btn btn-sm btn-secondary">Edit</a>
+                    <form action="/admin/delete/<%= event.id %>" method="POST" style="display: inline;">
+                      <button type="submit" class="btn btn-sm btn-danger">Delete</button>D
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <p>No events found. <a href="/admin/new">Create one!</a></p>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,16 @@
+<%# 
+  This partial reads the 'success' and 'error' flash variables
+  that are set globally in app.js
+%>
+
+<% if (success && success.length > 0) { %>
+  <div class="alert alert-success">
+    <%= success %>
+  </div>
+<% } %>
+
+<% if (error && error.length > 0) { %>
+  <div class="alert alert-danger">
+    <%= error %>
+  </div>
+<% } %>

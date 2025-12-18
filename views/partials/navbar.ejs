@@ -1,0 +1,27 @@
+<nav class="navbar">
+  <div class="container">
+    <a href="/" class="navbar-brand">EventEase</a>
+    <div class="navbar-links">
+      
+      <a href="/">All Events</a>
+
+      <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+        
+        <!-- User is logged in -->
+        <% if (currentUser.role === 'admin') { %>
+          <a href="/admin/dashboard">Admin Panel</a>
+        <% } else { %>
+          <a href="/dashboard">My Dashboard</a>
+        <% } %>
+
+      <% } else { %>
+        
+        <!-- User is not logged in -->
+        <a href="/login">Login</a>
+        <a href="/register" class="btn btn-primary">Sign Up</a>
+
+      <% } %>
+    </div>
+  </div>
+</nav>
+
